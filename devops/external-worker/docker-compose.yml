@@ -24,6 +24,7 @@ services:
     # owned by that user and provides permissions to manage docker
     environment:
       DSA_USER: ${DSA_USER:-}
+      HF_HOME: ${HF_HOME:-}
       # Enable this to automatically use the provisioning yaml
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
       DSA_WORKER_API_URL: ${DSA_WORKER_API_URL:-}
@@ -137,6 +138,7 @@ services:
     # docker
     environment:
       DSA_USER: ${DSA_USER:-}
+      HF_HOME: ${HF_HOME:-}
       DSA_WORKER_CONCURRENCY: ${DSA_WORKER_CONCURRENCY:-2}
       RABBITMQ_USER: ${RABBITMQ_USER:-girder}
       RABBITMQ_PASS: ${RABBITMQ_PASS:-girder1234}
@@ -157,6 +159,8 @@ services:
       - ../dsa/start_worker.sh:/opt/digital_slide_archive/devops/dsa/start_worker.sh
       # Needed to allow transferring data to slicer_cli_web docker containers
       - ${TMPDIR:-/tmp}:${TMPDIR:-/tmp}
+      # Give access to huggingface cache
+      - ${HF_HOME:-/dev/null}:/data/huggingface:ro
       # Add additional mounts here to get access to existing files on your
       # system if they have the same path as on the girder container.
     command: /opt/digital_slide_archive/devops/dsa/start_worker.sh
