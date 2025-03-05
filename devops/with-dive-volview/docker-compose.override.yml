@@ -3,6 +3,8 @@ services:
   girder:
     volumes:
       - ../with-dive-volview/provision.divevolview.yaml:/opt/digital_slide_archive/devops/dsa/provision.yaml
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
   worker:
     environment:

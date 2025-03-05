@@ -45,6 +45,8 @@ services:
       - ../dsa/start_girder.sh:/opt/digital_slide_archive/devops/dsa/start_girder.sh
       # Location to store logs
       - ../dsa/logs:/logs
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
 
       # Add additional mounts here to get access to existing files on your
@@ -71,6 +73,8 @@ services:
     volumes:
       # Location to store database files
       - ../dsa/db:/data/db
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     # Uncomment to allow access to the database from outside of the docker
     # network.
     # ports:
@@ -117,6 +121,8 @@ services:
       RABBITMQ_PASS: ${RABBITMQ_PASS:-girder1234}
     volumes:
       - ../dsa/rabbitmq.advanced.config:/etc/rabbitmq/advanced.config:ro
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     logging:
       options:
         max-size: "10M"

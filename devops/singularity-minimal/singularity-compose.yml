@@ -8,6 +8,8 @@ instances:
     volumes:
       - ./assetstore:/assetstore
       - ./girder.cfg:/etc/girder.cfg
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     depends_on:
       - mongodb
     command:
@@ -19,3 +21,5 @@ instances:
     command: --nojournal
     volumes:
       - ./db:/data/db
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
