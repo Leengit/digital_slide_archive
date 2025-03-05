@@ -10,6 +10,6 @@ services:
     volumes:
       - ../with-dive-volview/provision.divevolview.yaml:/opt/digital_slide_archive/devops/dsa/provision.yaml
       # Give access to huggingface cache
-      - ${HF_HOME:-/dev/null}:/data/huggingface:ro
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
   clamav:
     image: clamav/clamav:stable

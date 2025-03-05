@@ -25,7 +25,7 @@ services:
     # owned by that user and provides permissions to manage docker
     environment:
       DSA_USER: ${DSA_USER:-}
-      HF_HOME: ${HF_HOME:-}
+      HF_HOME: /data/huggingface
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
       # Mount options can be used to, for instance, add diskcache (e.g.,
       #  "-o diskcache,diskcache_size_limit=2147483648")
@@ -154,7 +154,7 @@ services:
     # docker
     environment:
       DSA_USER: ${DSA_USER:-}
-      HF_HOME: ${HF_HOME:-}
+      HF_HOME: /data/huggingface
       DSA_WORKER_CONCURRENCY: ${DSA_WORKER_CONCURRENCY:-2}
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
       TMPDIR:
@@ -175,7 +175,7 @@ services:
       # Needed to allow transferring data to slicer_cli_web docker containers
       - ${TMPDIR:-/tmp}:${TMPDIR:-/tmp}
       # Give access to huggingface cache
-      - ${HF_HOME:-/dev/null}:/data/huggingface:ro
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
       # See comments about authorizing docker repositories above
       # - /home/<user directory>/.docker:/.docker:ro
