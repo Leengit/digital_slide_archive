@@ -56,6 +56,8 @@ services:
       - ./start_girder.sh:/opt/digital_slide_archive/devops/dsa/start_girder.sh
       # Location to store logs
       - ./logs:/logs
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
       # For local development, uncomment the set of mounts associated with the
       # local source files.  Adding the editable egg directories first allows
@@ -91,6 +93,8 @@ services:
     volumes:
       # Location to store database files
       - ./db:/data/db
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     # Uncomment to allow access to the database from outside of the docker
     # network.
     # ports:
@@ -133,6 +137,8 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-}
     volumes:
       - ./rabbitmq.advanced.config:/etc/rabbitmq/advanced.config:ro
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     logging:
       options:
         max-size: "10M"

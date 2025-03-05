@@ -8,6 +8,8 @@ services:
       - "${DSA_PORT:-8080}:8080"
     volumes:
       - assetstore:/assetstore
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     depends_on:
       - mongodb
   mongodb:
@@ -15,6 +17,9 @@ services:
     restart: unless-stopped
     volumes:
       - db:/data/db
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 volumes:
   assetstore:
   db:
+  ${HF_HOME:-${HOME}/.cache/huggingface}:

@@ -4,3 +4,5 @@ services:
   girder:
     volumes:
       - ../../.circleci/dsa_proxy.cfg:/etc/girder.cfg
+      # Give access to huggingface cache
+      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
