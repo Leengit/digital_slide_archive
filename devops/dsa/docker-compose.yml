@@ -25,7 +25,6 @@ services:
     # owned by that user and provides permissions to manage docker
     environment:
       DSA_USER: ${DSA_USER:-}
-      HF_HOME: /data/huggingface
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
       # Mount options can be used to, for instance, add diskcache (e.g.,
       #  "-o diskcache,diskcache_size_limit=2147483648")
@@ -56,8 +55,6 @@ services:
       - ./start_girder.sh:/opt/digital_slide_archive/devops/dsa/start_girder.sh
       # Location to store logs
       - ./logs:/logs
-      # Give access to huggingface cache
-      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
       # For local development, uncomment the set of mounts associated with the
       # local source files.  Adding the editable egg directories first allows
@@ -93,8 +90,6 @@ services:
     volumes:
       # Location to store database files
       - ./db:/data/db
-      # Give access to huggingface cache
-      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     # Uncomment to allow access to the database from outside of the docker
     # network.
     # ports:
@@ -137,8 +132,6 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-}
     volumes:
       - ./rabbitmq.advanced.config:/etc/rabbitmq/advanced.config:ro
-      # Give access to huggingface cache
-      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
     logging:
       options:
         max-size: "10M"
@@ -160,7 +153,6 @@ services:
     # docker
     environment:
       DSA_USER: ${DSA_USER:-}
-      HF_HOME: /data/huggingface
       DSA_WORKER_CONCURRENCY: ${DSA_WORKER_CONCURRENCY:-2}
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
       TMPDIR:
@@ -180,8 +172,6 @@ services:
       - ./start_worker.sh:/opt/digital_slide_archive/devops/dsa/start_worker.sh
       # Needed to allow transferring data to slicer_cli_web docker containers
       - ${TMPDIR:-/tmp}:${TMPDIR:-/tmp}
-      # Give access to huggingface cache
-      - ${HF_HOME:-${HOME}/.cache/huggingface}:/data/huggingface:ro
 
       # See comments about authorizing docker repositories above
       # - /home/<user directory>/.docker:/.docker:ro
