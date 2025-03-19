@@ -124,13 +124,17 @@ RUN NPM_CONFIG_FUND=false NPM_CONFIG_AUDIT=false NPM_CONFIG_AUDIT_LEVEL=high NPM
 RUN npm install -g phantomjs-prebuilt --unsafe-perm && \
     rm -rf /tmp/* ~/.npm
 
-# When running the worker, adjust some settings
-RUN echo 'task_reject_on_worker_lost = True' >> /opt/girder_worker/girder_worker/celeryconfig.py
-RUN echo 'task_acks_late = True' >> /opt/girder_worker/girder_worker/celeryconfig.py
-
 COPY . /opt/digital_slide_archive
 
 ENV PATH="/opt/digital_slide_archive/devops/dsa/utils:$PATH"
+
+# When running the worker, adjust some settings
+WORKDIR /opt/girder_worker
+RUN git stash push
+RUN git checkout docker-run-options
+RUN git stash pop
+RUN echo 'task_reject_on_worker_lost = True' >> /opt/girder_worker/girder_worker/celeryconfig.py
+RUN echo 'task_acks_late = True' >> /opt/girder_worker/girder_worker/celeryconfig.py
 
 WORKDIR /opt/HistomicsUI
 
