@@ -200,7 +200,9 @@ RUN cd /opt && \
     true
 
 # When running the worker, adjust some settings
-RUN echo 'task_reject_on_worker_lost = True' >> /opt/girder/worker/girder_worker/celeryconfig.py && \
+RUN cd /opt/girder/worker && \
+    git fetch --all && git checkout docker-run-options && \
+    echo 'task_reject_on_worker_lost = True' >> /opt/girder/worker/girder_worker/celeryconfig.py && \
     echo 'task_acks_late = True' >> /opt/girder/worker/girder_worker/celeryconfig.py
 
 COPY . /opt/digital_slide_archive
